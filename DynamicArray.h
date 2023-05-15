@@ -53,7 +53,7 @@ namespace justin_su
             void removeAt(int position, T newValue);
             void removeSegment(int start, int end);
             DynamicArray<T>getSegment(int start, int end);
-            int index(int index);
+            int indexOf(int index);
             int length();
             int capacity();
             T at(int index);
@@ -180,7 +180,17 @@ namespace justin_su
             array[i] = newValue;
         }
         size = maxSize;
+    }
 
+    template<class T>
+    int DynamicArray<T>::indexOf(T value)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if (array[i] == value)
+                return i;
+        }
+        return -1;
     }
 
 
