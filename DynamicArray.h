@@ -183,6 +183,12 @@ namespace justin_su
     }
 
     template<class T>
+    int DynamicArray<T>::length()
+    {
+        return size;
+    }
+
+    template<class T>
     int DynamicArray<T>::indexOf(T value)
     {
         for (int i = 0; i < size; i++)
