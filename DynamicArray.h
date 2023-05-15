@@ -134,7 +134,7 @@ namespace justin_su
                 if (array[j + 1] > array[j])
                 {
                     T temp = array[j + 1];
-                    array[j + 1]= = array[j];
+                    array[j + 1] =  array[j];
                     array[j] = temp;
                 }
             }
@@ -224,6 +224,19 @@ namespace justin_su
     bool DynamicArray<T>::isEmpty()
     {
         return size == 0;
+    }
+
+    template<class T>
+    void DynamicArray<T>::operator=(const DynamicArray<T> &arr)
+    {
+        delete [] array;
+        maxSize = arr.size;
+        size = arr.size;
+        array = new T[maxSize]{};
+        for (int i = 0; i < size; i++)
+        {
+            array[i] = arr.array[i];
+        }
     }
 
 
