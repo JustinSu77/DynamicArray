@@ -42,6 +42,7 @@ namespace justin_su
             void print();
             void sort();
             void clear();
+            void resize(int newSize);
             void fill(T newValue);
             void insertAtStart(T newValue);
             void insertAtEnd(T newValue);
@@ -65,7 +66,14 @@ namespace justin_su
             int size;
             int maxSize;
     };
-    
+
+    template<class T>
+    DynamicArray<T>::DynamicArray(): size(0), maxSize(1)
+    {
+        array = new T[maxSize]{};
+        
+    }
+
 
 }
 #endif
