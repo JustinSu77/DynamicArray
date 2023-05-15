@@ -112,11 +112,12 @@ namespace justin_su
     template<class T>
     void DynamicArray<T>::print()
     {
+        std::cout << "[";
         for (int i = 0; i < size; i++)
         {
-            std::cout << " " << array[i];
+            std::cout << array[i] << " ";
         }
-        std::cout << std::endl;
+        std::cout << "]" std::endl;
     }
 
 
