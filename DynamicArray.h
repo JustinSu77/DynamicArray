@@ -239,6 +239,20 @@ namespace justin_su
         }
     }
 
+    template<class T>
+    bool DynamicArray<T>::operator==(const DynamicArray<T> &arr)
+    {
+        if (size != arr.size || maxSize != arr.maxSize)
+            return false;
+        for (int i = 0; i < size; i++)
+        {
+            if (array[i] != arr.array[i])
+                return false;
+        }
+        return true;
+
+    }
+
 
 }
 #endif
