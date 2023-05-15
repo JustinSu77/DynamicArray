@@ -35,7 +35,6 @@ namespace justin_su
     {
         public:
             DynamicArray();
-            DynamicArray(int maxSize);
             DynamicArray(std::initializer_list<T>& list);
             DynamicArray(const DynamicArray<T>& arr);
             ~DynamicArray();
@@ -68,10 +67,10 @@ namespace justin_su
     };
 
     template<class T>
-    DynamicArray<T>::DynamicArray(): size(0), maxSize(1)
+    DynamicArray<T>::DynamicArray(): size(0), maxSize(10)
     {
         array = new T[maxSize]{};
-        
+
     }
 
 
