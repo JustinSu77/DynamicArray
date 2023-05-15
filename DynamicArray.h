@@ -64,6 +64,7 @@ namespace justin_su
             T* array;
             int size;
             int maxSize;
+            void doubleSize();
     };
 
     template<class T>
@@ -94,12 +95,18 @@ namespace justin_su
     DynamicArray<T>::DynamicArray(const DynamicArray<T> &arr): size(arr.size), maxSize(arr.maxSize)
     {
         delete[] array;
-        array new T[maxSize]{};
+        array  = new T[maxSize]{};
         for (int i  = 0; i < size; i++)
         {
             array[i] = arr.array[i];
         }
-        
+
+    }
+
+    template<class T>
+    DynamicArray<T>::~DynamicArray()
+    {
+        delete[] array;
     }
 
 
