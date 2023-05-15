@@ -27,6 +27,7 @@
 
 #ifndef DYNAMIC_ARRAY
 #define DYNAMIC_ARRAY
+#include <iostream>
 #include <initializer_list>
 namespace justin_su
 {
@@ -57,6 +58,7 @@ namespace justin_su
             int capacity();
             T at(int index);
             bool isFull();
+            bool isEmpty();
             void operator=(const DynamicArray<T>& arr);
             bool operator==(const DynamicArray<T>& arr);
             T& operator[](int position);
@@ -117,7 +119,29 @@ namespace justin_su
         {
             std::cout << array[i] << " ";
         }
-        std::cout << "]" std::endl;
+        std::cout << "]" << std::endl;
+    }
+
+    template<class T>
+    void DynamicArray<T>::sort()
+    {
+        if (size == 1 || isEmpty())
+            return;
+        for (int i = 0; i < size; i++)
+        {
+            bool isSwapped = false;
+            for (int j = 0; j < size - i - 1; j++)
+            {
+                if (array[j + 1] > array[j])
+                {
+                    T temp = array[j + 1];
+                    array[j + 1]= = array[j];
+                    array[j] = temp;
+                }
+            }
+        }
+
+
     }
 
 
