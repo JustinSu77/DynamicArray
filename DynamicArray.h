@@ -270,6 +270,20 @@ namespace justin_su
         array = new T[maxSize]{};
     }
 
+    template<class T>
+    void DynamicArray<T>::insertAtStart(T newValue)
+    {
+        if (isFull())
+            doubleSize();
+        for (int i = size; i >= 0; i--)
+        {
+            array[i + 1] = array[i];
+        }
+        array[0] = newValue;
+        size++;
+
+    }
+
 
 }
 #endif
