@@ -90,7 +90,17 @@ namespace justin_su
 
     }
 
-
+    template<class T>
+    DynamicArray<T>::DynamicArray(const DynamicArray<T> &arr): size(arr.size), maxSize(arr.maxSize)
+    {
+        delete[] array;
+        array new T[maxSize]{};
+        for (int i  = 0; i < size; i++)
+        {
+            array[i] = arr.array[i];
+        }
+        
+    }
 
 
 }
