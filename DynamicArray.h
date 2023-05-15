@@ -220,6 +220,12 @@ namespace justin_su
         return size == maxSize;
     }
 
+    template<class T>
+    bool DynamicArray<T>::isEmpty()
+    {
+        return size == 0;
+    }
+
 
 }
 #endif
