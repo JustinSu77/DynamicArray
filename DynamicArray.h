@@ -331,6 +331,30 @@ namespace justin_su
         size++;
     }
 
+    template<class T>
+    void DynamicArray<T>::insertSegment(int start, std::initializer_list<T> &list)
+    {
+        if (start < 0 || start != size - 1)
+            throw std::runtime_error("insertSegment: Given start index is out of bounds");
+        if (size + list.size() > maxSize)
+            doubleSize();
+
+        // shift elements to right starting at start
+        for (int i = size; i >= start; i--)
+        {
+            array[i + 1] = array[i];
+        }
+        int index = start;
+        for (auto element : list)
+        {
+            array[index] = element;
+            start++;
+        }
+        size = list.size();
+
+
+    }
+
 
 }
 #endif
