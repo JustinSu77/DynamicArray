@@ -69,9 +69,28 @@ namespace justin_su
     template<class T>
     DynamicArray<T>::DynamicArray(): size(0), maxSize(10)
     {
+        delete[] array;
         array = new T[maxSize]{};
 
     }
+
+    template<class T>
+    DynamicArray<T>::DynamicArray(std::initializer_list<T> &list): size(list.size()), maxSize(list.size())
+    {
+
+        delete[] array;
+        array = new T[maxSize]{};
+        int index = 0;
+        for (auto element : list)
+        {
+            array[index] = element;
+            index++;
+        }
+
+
+    }
+
+
 
 
 }
