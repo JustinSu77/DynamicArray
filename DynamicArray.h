@@ -109,6 +109,16 @@ namespace justin_su
         delete[] array;
     }
 
+    template<class T>
+    void DynamicArray<T>::print()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            std::cout << " " << array[i];
+        }
+        std::cout << std::endl;
+    }
+
 
 }
 #endif
