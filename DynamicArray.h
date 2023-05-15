@@ -53,7 +53,7 @@ namespace justin_su
             void removeAt(int position, T newValue);
             void removeSegment(int start, int end);
             DynamicArray<T>getSegment(int start, int end);
-            int indexOf(int index);
+            int indexOf(T value);
             int length();
             int capacity();
             T at(int index);
@@ -194,6 +194,7 @@ namespace justin_su
         return maxSize;
     }
 
+
     template<class T>
     int DynamicArray<T>::indexOf(T value)
     {
@@ -203,6 +204,14 @@ namespace justin_su
                 return i;
         }
         return -1;
+    }
+
+    template<class T>
+    T DynamicArray<T>::at(int index)
+    {
+        if (index < 0 || index > size - 1)
+            std::runtime_error("at: Given index is out of bounds");
+        return array[index - 1];
     }
 
 
