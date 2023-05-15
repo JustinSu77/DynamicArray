@@ -80,7 +80,6 @@ namespace justin_su
     template<class T>
     DynamicArray<T>::DynamicArray(std::initializer_list<T> &list): size(list.size()), maxSize(list.size())
     {
-
         delete[] array;
         array = new T[maxSize]{};
         int index = 0;
@@ -150,6 +149,38 @@ namespace justin_su
         delete[] array;
         array = new T[maxSize]{};
         size = 0;
+    }
+
+    template<class T>
+    void DynamicArray<T>::resize(int newSize)
+    {
+        if (newSize < 0 || newSize > INT_MAX)
+            throw std::runtime_error("resize: Given newSize is out of bounds");
+        if (isEmpty())
+            return;
+        maxSize = newSize;
+        T* newArray = new T[maxSize]{};
+        for (int i = 0; i < maxSize; i++)
+        {
+            newArray[i] = array[i];
+        }
+        delete [] array;
+        array = newArray;
+
+
+
+    }
+
+    template<class T>
+    void DynamicArray<T>::fill(T newValue)
+    {
+        delete[] array;
+        for (int i = 0; i < maxSize; i++)
+        {
+            array[i] = newValue;
+        }
+        size = maxSize;
+
     }
 
 
