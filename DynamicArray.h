@@ -254,7 +254,7 @@ namespace justin_su
 
     }
 
-    
+
 
     template<class T>
     T &DynamicArray<T>::operator[](int position)
@@ -262,6 +262,12 @@ namespace justin_su
         if( position < 0 || position < size - 1)
             throw std::runtime_error("[] operator: Given index out of bounds!");
         return array[position - 1];
+    }
+
+    template<class T>
+    DynamicArray<T>::DynamicArray(int maxSize): size(0), maxSize(maxSize)
+    {
+        array = new T[maxSize]{};
     }
 
 
