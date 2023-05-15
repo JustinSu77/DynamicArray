@@ -144,6 +144,14 @@ namespace justin_su
 
     }
 
+    template<class T>
+    void DynamicArray<T>::clear()
+    {
+        delete[] array;
+        array = new T[maxSize]{};
+        size = 0;
+    }
+
 
 }
 #endif
