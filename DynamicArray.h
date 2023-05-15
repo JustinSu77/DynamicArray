@@ -36,6 +36,7 @@ namespace justin_su
     {
         public:
             DynamicArray();
+            DynamicArray(int maxSize);
             DynamicArray(std::initializer_list<T>& list);
             DynamicArray(const DynamicArray<T>& arr);
             ~DynamicArray();
@@ -61,7 +62,7 @@ namespace justin_su
             bool isEmpty();
             void operator=(const DynamicArray<T>& arr);
             bool operator==(const DynamicArray<T>& arr);
-            T& operator[](int position);
+            T& operator[](int index);
         private:
             T* array;
             int size;
@@ -251,6 +252,16 @@ namespace justin_su
         }
         return true;
 
+    }
+
+    
+
+    template<class T>
+    T &DynamicArray<T>::operator[](int position)
+    {
+        if( position < 0 || position < size - 1)
+            throw std::runtime_error("[] operator: Given index out of bounds!");
+        return array[position - 1];
     }
 
 
