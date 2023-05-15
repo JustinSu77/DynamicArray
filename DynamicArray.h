@@ -47,7 +47,7 @@ namespace justin_su
             void fill(T newValue);
             void insertAtStart(T newValue);
             void insertAtEnd(T newValue);
-            void insertAt(int position, T newValue);
+            void insertAt(int index, T newValue);
             void insertSegment(int start, std::initializer_list<T>& list);
             void removeAtStart();
             void removeAtEnd();
@@ -287,7 +287,7 @@ namespace justin_su
     template<class T>
     void DynamicArray<T>::doubleSize()
     {
-        T* newArray = T[maxSize*2]{};
+        T* newArray = new T[maxSize*2]{};
         for (int i = 0; i < size; i++)
         {
             newArray[i] = array[i];
@@ -295,6 +295,40 @@ namespace justin_su
         maxSize = maxSize * 2;
         delete[] array;
         array = newArray;
+    }
+
+    template<class T>
+    void DynamicArray<T>::insertAtEnd(T newValue)
+    {
+        if (isFull())
+            doubleSize();
+        array[size - 1] = newValue;
+        size++;
+    }
+
+    template<class T>
+    void DynamicArray<T>::insertAt(int index, T newValue)
+    {
+        if (index < 0 || index < size - 1)
+            throw std::runtime_error("insertAt: Given index is out of bounds");
+        if (index == 0)
+        {
+            insertAtStart(newValue);
+            return;
+        }
+        if (index == size - 1)
+        {
+            insertAtEnd(newValue);
+            return;
+        }
+        if (isFull())
+            doubleSize();
+        for (int i = size; i >= index; i--)
+        {
+            array[i] = array[i + 1];
+        }
+        array[index - 1] = newValue;
+        size++;
     }
 
 
