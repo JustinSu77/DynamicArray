@@ -211,7 +211,7 @@ namespace justin_su
     T DynamicArray<T>::at(int index)
     {
         if (index < 0 || index > size - 1)
-            std::runtime_error("at: Given index is out of bounds");
+            throw std::runtime_error("at: Given index is out of bounds");
         return array[index - 1];
     }
 
@@ -282,6 +282,19 @@ namespace justin_su
         array[0] = newValue;
         size++;
 
+    }
+
+    template<class T>
+    void DynamicArray<T>::doubleSize()
+    {
+        T* newArray = T[maxSize*2]{};
+        for (int i = 0; i < size; i++)
+        {
+            newArray[i] = array[i];
+        }
+        maxSize = maxSize * 2;
+        delete[] array;
+        array = newArray;
     }
 
 
