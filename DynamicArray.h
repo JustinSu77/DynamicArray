@@ -417,6 +417,26 @@ namespace justin_su
         }
     }
 
+    template<class T>
+    void DynamicArray<T>::removeSegment(int start, int end)
+    {
+        int newSize = end - start;
+        T* newArray = new T[newSize]{};
+
+        int index = 0;
+        for (int i = 0; i < size; i++)
+        {
+            if (i < start || i > end)
+            {
+                newArray[index] = array[i];
+                index++;
+            }
+
+        }
+        size = newSize;
+    }
+
+ 
 
 }
 #endif
