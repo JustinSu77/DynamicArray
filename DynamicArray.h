@@ -42,6 +42,7 @@ namespace justin_su
             ~DynamicArray();
             void print();
             void sort();
+            void reverse();
             void clear();
             void resize(int newSize);
             void fill(T newValue);
@@ -359,7 +360,12 @@ namespace justin_su
     void DynamicArray<T>::removeAtStart()
     {
         if (isEmpty())
-            throw std::runtime_error("")
+            throw std::runtime_error("removeAtStart: Array is empty!");
+        for (int i = 0; i < size; i++)
+        {
+            array[i] = array[i + 1];
+        }
+        size--;
     }
 
     template<class T>
@@ -371,6 +377,29 @@ namespace justin_su
         array[size - 1] = newArray[0];
         delete[] newArray;
         size--;
+    }
+
+    template<class T>
+    void DynamicArray<T>::removeAt(int position, T newValue)
+    {
+        if (position < 0 || position > size - 1)
+            throw std::runtime_error("removeAt: Given index is invalid");
+        if (position == 0)
+        {
+            removeAtStart();
+            return;
+        }
+        if (position == size - 1)
+        {
+            removeAtEnd();
+            return;
+        }
+        for (int i = start; i < size; i++)
+        {
+            array[i] = array[i + 1];
+        }
+        size--;
+
     }
 
 
