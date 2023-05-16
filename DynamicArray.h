@@ -394,12 +394,27 @@ namespace justin_su
             removeAtEnd();
             return;
         }
-        for (int i = start; i < size; i++)
+        for (int i = position; i < size; i++)
         {
             array[i] = array[i + 1];
         }
         size--;
 
+    }
+
+    template<class T>
+    void DynamicArray<T>::reverse()
+    {
+        int start = 0;
+        int end = size - 1;
+        while(start < end)
+        {
+            T temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
+        }
     }
 
 
