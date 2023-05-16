@@ -355,6 +355,24 @@ namespace justin_su
 
     }
 
+    template<class T>
+    void DynamicArray<T>::removeAtStart()
+    {
+        if (isEmpty())
+            throw std::runtime_error("")
+    }
+
+    template<class T>
+    void DynamicArray<T>::removeAtEnd()
+    {
+        if (isEmpty())
+            throw std::runtime_error("removeAtEnd: Array is empty!");
+        T* newArray = new T[2]{};
+        array[size - 1] = newArray[0];
+        delete[] newArray;
+        size--;
+    }
+
 
 }
 #endif
