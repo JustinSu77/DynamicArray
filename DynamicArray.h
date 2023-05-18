@@ -251,18 +251,70 @@ namespace justin_su
 
             /**
              * Returns the index of the first occurrence of the value.
-             *
+             * Preconditon: Array has some elements or is empty
+             * Postconditon: The zero-based index of the first occurrence of the given value is returned
+             *               Or -1 is returned if value does not exist
              * @param value target value to search for
              * @return zero-based index of first occurrence of given value
              */
             int indexOf(T value);
+
+            /**
+             * Returns the size of the array.
+             * @return size of array as int
+             */
             int length();
+
+            /**
+             * Return the max size of the array
+             @return max size of the array as int
+             */
             int capacity();
+
+            /**
+             * Return the value at the given zero-based index.
+               If the index < 0 or index > size - 1 throw runtime_error
+               @param index as zero-based index of the element to be returned
+               @return
+             */
             T at(int index);
+
+            /**
+             * Return whether or not array is full.
+             * Array is full if size == maxSize
+             * @return true if size == maxSize, false otherwise
+             */
             bool isFull();
+
+            /**
+             * Return whether or not array is empty.
+             *  Array is empty if size == 0
+             * @return true if size == 0, false otherwise
+             */
             bool isEmpty();
+
+            /**
+             * Sets the size, maxSize, and elements of this class equal to an existing instance of this class.
+               @param arr as an existing instance of this class
+             */
             void operator=(const DynamicArray<T>& arr);
+
+            /**
+             * Return whether or not two instances of this class are equal to each other.
+             * size, maxSize, and elements need to be the same
+             * @param arr as an existing instance of this class
+             * @return
+             */
             bool operator==(const DynamicArray<T>& arr);
+
+            /**
+             * Bracket operator overload.
+             *  Returns the element at the given zero-based index
+             *  If the given index is < 0 or > size - 1, throw runtime_error
+             *
+             * @param index as zero-based index the elemenet is to be returned from
+             * @return
+             */
             T& operator[](int index);
         private:
             T* array;
@@ -275,7 +327,7 @@ namespace justin_su
     template<class T>
     DynamicArray<T>::DynamicArray(): size(0), maxSize(10)
     {
-
+        // Allocate array pointer to dynamic array
         array = new T[maxSize]{};
 
     }
@@ -284,11 +336,16 @@ namespace justin_su
     DynamicArray<T>::DynamicArray( const std::initializer_list<T> &list): size(list.size()), maxSize(list.size())
     {
 
+        // Allocate array pointer to dynamic array
         array = new T[maxSize]{};
+        // Used to copy elements from initializer list
         int index = 0;
+        // Copy elements from initializer list to array
         for (auto element : list)
         {
+            // Set value from list to index
             array[index] = element;
+            // Increment index
             index++;
         }
 
@@ -299,7 +356,9 @@ namespace justin_su
     DynamicArray<T>::DynamicArray(const DynamicArray<T> &arr): size(arr.size), maxSize(arr.maxSize)
     {
 
+        // Allocate array pointer to dynamic array
         array  = new T[maxSize]{};
+        // Copy the elements from other instance's array to this arrayy
         for (int i  = 0; i < size; i++)
         {
             array[i] = arr.array[i];
@@ -310,42 +369,63 @@ namespace justin_su
     template<class T>
     DynamicArray<T>::~DynamicArray()
     {
+        // Deallocate array
         delete[] array;
+        // Set array to nullptr
         array = nullptr;
+    }
+
+    template<class T>
+    DynamicArray<T>::DynamicArray(int maxSize): size(0), maxSize(maxSize)
+    {
+
+        array = new T[maxSize]{};
     }
 
     template<class T>
     void DynamicArray<T>::print()
     {
+        // Print first bracket
         std::cout << "[";
+        // Print elements
         for (int i = 0; i < size; i++)
         {
+            // If the last element is printed, dont print space
             if (i == size - 1)
                 std::cout << array[i];
+            // Print space between elements
             else
                 std::cout << array[i] << " ";
         }
+        // Print bracket
         std::cout << "]" << std::endl;
     }
 
     template<class T>
     void DynamicArray<T>::sort()
     {
+        // If there is only 1 element or array is empty return
         if (size == 1 || isEmpty())
             return;
+        // Optimized bubble sort
         for (int i = 0; i < size; i++)
         {
+            // Flag to stop early
             bool isSwapped = false;
             for (int j = 0; j < size - i - 1; j++)
             {
+                // If current element is greater than
                 if (array[j] > array[j+ 1])
                 {
+                    // Swap elements
                     T temp = array[j];
                     array[j] =  array[j + 1];
                     array[j + 1] = temp;
+                    // Set flag to true
                     isSwapped = true;
                 }
             }
+            // if no swap happened end loop early
             if (!isSwapped)
                 break;
         }
@@ -356,46 +436,59 @@ namespace justin_su
     template<class T>
     void DynamicArray<T>::clear()
     {
+        // Deallocate array
         delete[] array;
+        // Sets array to nullpointer
         array = nullptr;
+        // Reallocate array and fill with default values
         array = new T[maxSize]{};
+        // Set size to 0
         size = 0;
     }
 
     template<class T>
     void DynamicArray<T>::resize(int newSize)
     {
+        // If newsize is negative or 0 or is greater than INT_MAX
         if (newSize <= 0 || newSize > INT_MAX)
             throw std::runtime_error("resize: Given newSize is out of bounds");
-        if (isEmpty())
-            return;
+        // Set number of elements to given maxSize
         int elements = newSize;
-        if (newSize > size)
-        {
+        // Sets max size to given newSize
+        maxSize = newSize;
+        // If array will be made shorter
+        if (newSize < size)
+            // Set elements to be in array to size
             elements = size;
-            maxSize = newSize;
-        }
+        // Create new array set to default values
         T* newArray = new T[elements]{};
+        // Copy the elements from old array to new array
         for (int i = 0; i < elements; i++)
         {
             newArray[i] = array[i];
         }
-        size = elements;
+        // Set size to newSize
+        size = newSize;
+        // Deallocate array pointer
         delete [] array;
         array = nullptr;
+        // Set array to point to new array;
         array = newArray;
     }
 
     template<class T>
     void DynamicArray<T>::fill(T newValue)
     {
+        // Create new array and set all elements of array to default values
         delete[] array;
         array = nullptr;
         array = new T[maxSize]{};
+        // Fill array with  given newValue
         for (int i = 0; i < maxSize; i++)
         {
             array[i] = newValue;
         }
+        // Set array to be full
         size = maxSize;
 
     }
@@ -416,20 +509,24 @@ namespace justin_su
     template<class T>
     int DynamicArray<T>::indexOf(T value)
     {
+        // Linear search
         for (int i = 0; i < size; i++)
         {
+            // when value is found return its index
             if (array[i] == value)
                 return i;
         }
+        // If value does not exist return -1
         return -1;
     }
 
     template<class T>
     T DynamicArray<T>::at(int index)
     {
+        // If given index is out of bounds
         if (index < 0 || index > size - 1)
             throw std::runtime_error("at: Given index is out of bounds");
-        return array[index - 1];
+        return array[index];
     }
 
     template<class T>
@@ -447,11 +544,15 @@ namespace justin_su
     template <class T>
     void DynamicArray<T>::operator=(const DynamicArray<T> &arr)
     {
+        // delete array
         delete[] array;
         array = nullptr;
+        // Copy size and maxSize
         maxSize = arr.size;
         size = arr.size;
+        // Reallocate array to new dynamic array
         array = new T[maxSize]{};
+        // Copy elements from array of given instance to new array
         for (int i = 0; i < size; i++)
         {
             array[i] = arr.array[i];
@@ -461,13 +562,17 @@ namespace justin_su
     template<class T>
     bool DynamicArray<T>::operator==(const DynamicArray<T> &arr)
     {
+        // If the size and maxSize are different return false
         if (size != arr.size || maxSize != arr.maxSize)
             return false;
+        // Loop through all elements
         for (int i = 0; i < size; i++)
         {
+            // if any element is different return false
             if (array[i] != arr.array[i])
                 return false;
         }
+        // Otherwise
         return true;
 
     }
@@ -477,27 +582,29 @@ namespace justin_su
     template<class T>
     T &DynamicArray<T>::operator[](int position)
     {
+        // If given position is out of bounds, throw runtime_error
         if( position < 0 || position > size - 1)
             throw std::runtime_error("[] operator: Given index out of bounds!");
+        // Otherwise return element at given position
         return array[position];
     }
 
-    template<class T>
-    DynamicArray<T>::DynamicArray(int maxSize): size(0), maxSize(maxSize)
-    {
-        array = new T[maxSize]{};
-    }
+
 
     template<class T>
     void DynamicArray<T>::insertAtStart(T newValue)
     {
+        // If array is full, double its capacity
         if (isFull())
             doubleSize();
+        // Shift elements to the right
         for (int i = size; i >= 0; i--)
         {
             array[i + 1] = array[i];
         }
+        // Set first element to newValue
         array[0] = newValue;
+        // Increase size by 1
         size++;
 
     }
@@ -505,97 +612,143 @@ namespace justin_su
     template<class T>
     void DynamicArray<T>::doubleSize()
     {
+        // Create new array that is double the capacity of current array
+        // Set to default value
         T* newArray = new T[maxSize*2]{};
+        // Copy the elements from old array to new array
         for (int i = 0; i < size; i++)
         {
             newArray[i] = array[i];
         }
+        // Double maxSize
         maxSize = maxSize * 2;
+        // Deallocate array
         delete[] array;
+        array = nullptr;
+        // Set array to new array
         array = newArray;
     }
 
     template<class T>
     void DynamicArray<T>::insertAtEnd(T newValue)
     {
+        // If array is full double its capacity
         if (isFull())
             doubleSize();
+        // Set last element to be given value
         array[size] = newValue;
+        // Increase size by 1
         size++;
     }
 
     template<class T>
     void DynamicArray<T>::insertAt(int index, T newValue)
     {
+        // If index is out of bounds, throw exception
         if (index < 0 || index > size)
             throw std::runtime_error("insertAt: Given index is out of bounds");
+        // If index is 0, call insertAtStart
         if (index == 0)
         {
             insertAtStart(newValue);
             return;
         }
+        //if index is size - 1, throw exception
         if (index == size - 1)
         {
             insertAtEnd(newValue);
             return;
         }
+
+        // If array is full double its size
         if (isFull())
             doubleSize();
+        // Shift elements starting at given index to the right
         for (int i = size; i >= index; i--)
         {
             array[i] = array[i + 1];
         }
+        // Set given newValue to
         array[index] = newValue;
+        // Increase size by 1
         size++;
     }
 
     template<class T>
     void DynamicArray<T>::insertSegment(int start, const std::initializer_list<T> &list)
     {
+        // If array is empty, just insert the elements into array
         if (isEmpty())
         {
+            // Deallocate array
             delete[] array;
+            array = nullptr;
+            // Reallocate array
             array = new T[list.size()]{};
+            // Set size to list.size
             size = list.size();
+            // Set maxSize to list.size
             maxSize = list.size();
+            // Index of array
             int index = 0;
+            // Copy elements from initializer list to array
             for (auto element: list)
             {
                 array[index] = element;
+                // Increment index by 1
                 index++;
             }
+            // Get out of function
             return;
         }
+        // New size of array
         int newMaxSize = size + list.size();
+        // If given start index is out of bounds, throw exception
         if (start < 0 || start > size)
             throw std::runtime_error("insertSegment: Given start index is out of bounds");
+        // If array is full, double the array
         if (newMaxSize > maxSize)
             doubleSize();
+        // Add number of elements added to size
         size += list.size();
+        // Create new array
         T* newArray = new T[newMaxSize]{};
+        // index where the segment is inserted
         int index  = start;
+        // iterator to get element from initializer list
         typename std::initializer_list<T>::iterator iter = list.begin();
+
+        // Traverse the array
         for (int i = 0; i < size; i++)
         {
+            // If the current index traversed is not in the range where new segment is inserted
             if (i < start || i > start + list.size() - 1)
             {
+                // If elements from initializer list has been copied, copy the rest other elements from the old array
+                //  to new array
+                // For situations where the inserted segment is between existing elements
                 if (iter == list.end())
                 {
+                    // Copy element
                     newArray[i] = array[index];
+                    // Increase the index
                     index++;
                 }
+                // Copy elements from old array to new array
                 else
                     newArray[i] = array[i];
             }
+            // Copy elements from initializer list to newArray
             else
             {
                 newArray[i] = *iter;
                 iter++;
-
-
             }
         }
+        // Deallocate array
         delete[] array;
+        array = nullptr;
+        // Set array to newArray
         array = newArray;
 
 
@@ -606,45 +759,60 @@ namespace justin_su
     template<class T>
     void DynamicArray<T>::removeAtStart()
     {
+        // If array is already emtpy, throw exception
         if (isEmpty())
             throw std::runtime_error("removeAtStart: Array is empty!");
+        // Shift element to left
         for (int i = 0; i < size; i++)
         {
             array[i] = array[i + 1];
         }
+        // Decrease size by 1
         size--;
     }
 
     template<class T>
     void DynamicArray<T>::removeAtEnd()
     {
+        // If array is already emtpy, throw exception
         if (isEmpty())
             throw std::runtime_error("removeAtEnd: Array is empty!");
+        // Create temp array to get default value of data type T
         T* newArray = new T[2]{};
+        // Set last element to be the default value of T
         array[size - 1] = newArray[0];
+        // Deallocate array
         delete[] newArray;
+        // Decrease size by 1
         size--;
     }
 
     template<class T>
     void DynamicArray<T>::removeAt(int position)
-    {
+
+    {  // If given position is out of bounds, throw exception
         if (position < 0 || position > size - 1)
             throw std::runtime_error("removeAt: Given index is out of bounds!");
+        // If given position is 0, call removeAtStart function
         if (position == 0)
         {
             removeAtStart();
+            // Get out of function once done
             return;
         }
+        // If given position is the last element, call removeAtEnd function
         if (position == size - 1)
         {
             removeAtEnd();
+            // Get out of functions once done
             return;
         }
+        // Shift elements to left starting at given position
         for (int i = position; i < size; i++)
         {
             array[i] = array[i + 1];
         }
+        // Decrease size by 1
         size--;
 
     }
@@ -652,41 +820,56 @@ namespace justin_su
     template<class T>
     DynamicArray<T> DynamicArray<T>::getSegment(int start, int end)
     {
+        // If array is empty, return a default instance of this class
         if (isEmpty())
         {
             DynamicArray<int>arr;
             return arr;
         }
-
+        // if given start or end are negative, throw exception
         if (start < 0 || end < 0)
             throw std::runtime_error("getSegment: start or end cannot be negative!");
+        // If start index is greater or equal to end, throw exception
         if (start >= end)
             throw std::runtime_error("getSegment: start index cannot be greater than end index!");
+        // If given end is out of bounds, throw exception
         if (end > size - 1)
             throw std::runtime_error("getSegment: Segment should be in bounds");
+        // Total number of elements returned instance will have
         int totalSize = end - start + 1;
+        // Create instance of this class
         DynamicArray<T>arr(totalSize);
+        // Copying elements start at 0
         int index = 0;
+        // Copy segment of array into array of instance of this class
         for (int i = start; i <= end; i++)
         {
             arr.array[index] = array[i];
             index++;
         }
+        // Set the size of the returned instance
         arr.size = totalSize;
+        // Return the instance
         return arr;
     }
 
     template<class T>
     void DynamicArray<T>::reverse()
     {
+        // Set pointer to beginning of array
         int start = 0;
+        // Set pointer to end of array
         int end = size - 1;
+        // While pointers are not crossing
         while(start < end)
         {
+            // Swap elements
             T temp = array[start];
             array[start] = array[end];
             array[end] = temp;
+            // Increment start counter
             start++;
+            // Decrement end counter
             end--;
         }
     }
@@ -694,29 +877,41 @@ namespace justin_su
     template<class T>
     void DynamicArray<T>::removeSegment(int start, int end)
     {
+        // If array is empty, throw exception
         if (isEmpty())
             throw std::runtime_error("Array is empty!");
+        // If given start or end is negative, throw exception
         if (start < 0 || end < 0)
             throw std::runtime_error("getSegment: start or end cannot be negative!");
+        // If start index is greater than end, throw exception
         if (start >= end)
             throw std::runtime_error("getSegment: start index cannot be greater than or equal to end index!");
+        // If end is out of bounds, throw exception
         if (end > size - 1)
             throw std::runtime_error("getSegment: Segment should be in bounds");
+        // new size of array after elements are removed
         int newSize = end - start;
-        std::cout << newSize << std::endl;
+        // Allocate new array with default values
         T* newArray = new T[newSize]{};
+        // counter to copy elements starting at 0
         int index = 0;
+        // Loop through elements
         for (int i = 0; i < size; i++)
         {
+            // If index is in range of segment of array to remove
             if (i < start || i > end)
             {
-
+                // Copy those elements
                 newArray[index] = array[i];
                 index++;
             }
         }
-        size = newSize;
+        // Set size of to newSize
+        size = index;
+        // Deallocate old array
         delete[] array;
+        array = nullptr;
+        // Set array to newArray
         array = newArray;
 
     }
